@@ -1,0 +1,46 @@
+{
+  "selected_model": "Logistic Regression",
+  "dataset_size": 5158,
+  "spam_count": 642,
+  "ham_count": 4516,
+  "train_size": 4126,
+  "test_size": 1032,
+  "results": {
+    "Multinomial Naive Bayes": {
+      "accuracy": 0.9835271317829457,
+      "precision": 0.9743589743589743,
+      "recall": 0.890625,
+      "f1_score": 0.9306122448979591,
+      "confusion_matrix": [
+        [
+          901,
+          3
+        ],
+        [
+          14,
+          114
+        ]
+      ],
+      "classification_report": "              precision    recall  f1-score   support\n\n         ham       0.98      1.00      0.99       904\n        spam       0.97      0.89      0.93       128\n\n    accuracy                           0.98      1032\n   macro avg       0.98      0.94      0.96      1032\nweighted avg       0.98      0.98      0.98      1032\n",
+      "cv_f1": 0.9435585658288266
+    },
+    "Logistic Regression": {
+      "accuracy": 0.9912790697674418,
+      "precision": 0.976,
+      "recall": 0.953125,
+      "f1_score": 0.9644268774703557,
+      "confusion_matrix": [
+        [
+          901,
+          3
+        ],
+        [
+          6,
+          122
+        ]
+      ],
+      "classification_report": "              precision    recall  f1-score   support\n\n         ham       0.99      1.00      1.00       904\n        spam       0.98      0.95      0.96       128\n\n    accuracy                           0.99      1032\n   macro avg       0.98      0.97      0.98      1032\nweighted avg       0.99      0.99      0.99      1032\n",
+      "cv_f1": 0.9496405723808097
+    }
+  }
+}

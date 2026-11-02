@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - SpamGuard AI{% endblock %}
+{% block page %}dashboard{% endblock %}
+{% block scripts %}{% if not forbidden %}<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>{% endif %}{% endblock %}
+{% block content %}
+{% if forbidden %}
+<div class="sg-card p-4 text-center">
+  <h1 class="h4 fw-bold">Administrators only</h1>
+  <p class="text-muted mb-3">Your account does not have permission to view the admin dashboard.</p>
+  <a class="btn btn-primary" href="{{ url_for('index') }}">Back to home</a>
+</div>
+{% else %}
+<h1 class="h3 fw-bold mb-3">Admin Dashboard</h1>
+<div id="formAlert"></div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3"><div class="sg-card sg-stat"><div class="sg-stat-label">Total analyzed</div><div class="sg-stat-value" id="dTotal">–</div></div></div>
+  <div class="col-6 col-lg-3"><div class="sg-card sg-stat"><div class="sg-stat-label text-spam">Spam</div><div class="sg-stat-value text-spam" id="dSpam">–</div></div></div>
+  <div class="col-6 col-lg-3"><div class="sg-card sg-stat"><div class="sg-stat-label text-ham">Legitimate</div><div class="sg-stat-value text-ham" id="dHam">–</div></div></div>
+  <div class="col-6 col-lg-3"><div class="sg-card sg-stat"><div class="sg-stat-label">Spam rate</div><div class="sg-stat-value" id="dPct">–</div></div></div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-lg-5">
+    <div class="sg-card p-3 h-100">
+      <h2 class="h6 fw-bold">Spam vs legitimate</h2>
+      <div class="sg-chart"><canvas id="pieChart" aria-label="Pie chart of spam versus legitimate messages" role="img"></canvas></div>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <div class="sg-card p-3 h-100">
+      <h2 class="h6 fw-bold">Daily detections (last 7 days)</h2>
+      <div class="sg-chart"><canvas id="barChart" aria-label="Bar chart of daily detections" role="img"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-8">
+    <div class="sg-card p-3">
+      <h2 class="h6 fw-bold">Recent detection activity</h2>
+      <div class="table-responsive">
+        <table class="table align-middle sg-table mb-0">
+          <thead><tr><th>Message</th><th>Result</th><th>Confidence</th><th>Date &amp; time</th></tr></thead>
+          <tbody id="recentBody"></tbody>
+        </table>
+      </div>
+      <div id="recentEmpty" class="text-muted text-center py-3 d-none">No detections yet.</div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="sg-card p-3 mb-3">
+      <h2 class="h6 fw-bold">Model</h2>
+      <p class="small mb-1" id="modelInfo">No training log recorded yet.</p>
+      <p class="small text-muted mb-0">Registered users: <strong id="dUsers">–</strong></p>
+    </div>
+    <div class="sg-card p-3">
+      <h2 class="h6 fw-bold">Retrain with your own CSV</h2>
+      <p class="small text-muted">CSV needs a label column (spam/ham) and a text column. The best model is selected automatically.</p>
+      <form id="trainForm">
+        <input id="trainFile" type="file" accept=".csv,.tsv" class="form-control form-control-sm mb-2" required>
+        <button class="btn btn-primary btn-sm" type="submit">
+          <span class="spinner-border spinner-border-sm d-none" aria-hidden="true"></span> Upload &amp; train
+        </button>
+      </form>
+      <div id="trainResult" class="small mt-2"></div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

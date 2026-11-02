@@ -1,0 +1,111 @@
+:root {
+  --sg-navy: #0f1b3d;
+  --sg-blue: #2563eb;
+  --sg-blue-dark: #1d4ed8;
+  --sg-red: #dc2626;
+  --sg-green: #16a34a;
+  --sg-bg: #f6f8fc;
+  --sg-muted: #5b6785;
+  --sg-border: #e3e8f2;
+  --bs-body-color: var(--sg-navy);
+  --bs-primary: var(--sg-blue);
+  --bs-primary-rgb: 37, 99, 235;
+  --bs-link-color: var(--sg-blue);
+}
+
+html, body { min-height: 100%; }
+body {
+  background: var(--sg-bg);
+  color: var(--sg-navy);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+
+.text-muted { color: var(--sg-muted) !important; }
+.text-spam { color: var(--sg-red) !important; }
+.text-ham { color: var(--sg-green) !important; }
+.bg-spam { background-color: var(--sg-red) !important; }
+.bg-ham { background-color: var(--sg-green) !important; }
+
+.btn-primary { --bs-btn-bg: var(--sg-blue); --bs-btn-border-color: var(--sg-blue);
+  --bs-btn-hover-bg: var(--sg-blue-dark); --bs-btn-hover-border-color: var(--sg-blue-dark);
+  --bs-btn-active-bg: var(--sg-blue-dark); --bs-btn-active-border-color: var(--sg-blue-dark); }
+.btn-outline-primary { --bs-btn-color: var(--sg-blue); --bs-btn-border-color: var(--sg-blue);
+  --bs-btn-hover-bg: var(--sg-blue); --bs-btn-hover-border-color: var(--sg-blue); }
+.btn { border-radius: 10px; }
+.form-control, .form-select { border-radius: 10px; border-color: var(--sg-border); }
+.form-control:focus, .form-select:focus { border-color: var(--sg-blue); box-shadow: 0 0 0 .2rem rgba(37, 99, 235, .15); }
+
+/* Navbar */
+.sg-navbar { background: #fff; border-bottom: 1px solid var(--sg-border); }
+.sg-brand { font-weight: 800; color: var(--sg-navy); letter-spacing: -.02em; }
+.sg-brand i { color: var(--sg-blue); }
+.sg-brand span { color: var(--sg-blue); }
+.sg-navbar .nav-link { color: var(--sg-navy); font-weight: 500; }
+.sg-navbar .nav-link.active, .sg-navbar .nav-link:hover { color: var(--sg-blue); }
+
+/* Cards */
+.sg-card { background: #fff; border: 1px solid var(--sg-border); border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(15, 27, 61, .06); }
+.sg-stat { padding: 1rem 1.25rem; }
+.sg-stat-label { font-size: .85rem; font-weight: 600; color: var(--sg-muted); }
+.sg-stat-value { font-size: 2rem; font-weight: 800; line-height: 1.2; }
+
+/* Hero */
+.sg-hero-title { font-weight: 800; letter-spacing: -.03em; font-size: clamp(2rem, 5vw, 3.2rem); }
+.sg-hero-sub { max-width: 680px; }
+
+/* Result */
+.sg-result { padding: 1.5rem; border-left-width: 6px; }
+.sg-result.is-spam { border-left-color: var(--sg-red); }
+.sg-result.is-ham { border-left-color: var(--sg-green); }
+.sg-result-icon { font-size: 2.4rem; line-height: 1; }
+.sg-result.is-spam .sg-result-icon, .sg-result.is-spam .sg-result-title { color: var(--sg-red); }
+.sg-result.is-ham .sg-result-icon, .sg-result.is-ham .sg-result-title { color: var(--sg-green); }
+.sg-result-title { font-size: 1.5rem; font-weight: 800; letter-spacing: -.01em; }
+.sg-prob { height: 14px; border-radius: 999px; background: #eef1f8; }
+
+/* Big spam % badge */
+.sg-pct-big {
+  font-size: 2.6rem;
+  font-weight: 900;
+  letter-spacing: -.03em;
+  line-height: 1;
+  padding: .35rem .75rem;
+  border-radius: 14px;
+  min-width: 110px;
+  text-align: center;
+}
+.sg-pct-spam {
+  background: #fee2e2;
+  color: var(--sg-red);
+}
+.sg-pct-ham {
+  background: #dcfce7;
+  color: var(--sg-green);
+}
+
+/* Tables */
+.sg-table th { font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--sg-muted); white-space: nowrap; }
+.sg-table td.msg { max-width: 420px; overflow-wrap: anywhere; }
+.badge-spam { background: #fee2e2; color: #991b1b; }
+.badge-ham { background: #dcfce7; color: #166534; }
+
+/* Charts */
+.sg-chart { position: relative; height: 280px; }
+
+/* Footer */
+.sg-footer { background: var(--sg-navy); color: #c9d2ea; }
+.sg-footer h6 { color: #fff; }
+.sg-footer hr { border-color: rgba(255, 255, 255, .15); }
+
+.pagination { --bs-pagination-active-bg: var(--sg-blue); --bs-pagination-active-border-color: var(--sg-blue); }
+
+@media (max-width: 575.98px) {
+  .sg-stat-value { font-size: 1.6rem; }
+  .sg-result { padding: 1.1rem; }
+  .sg-chart { height: 240px; }
+}

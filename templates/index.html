@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}SpamGuard AI - Detect Spam Messages Instantly{% endblock %}
+{% block page %}home{% endblock %}
+{% block content %}
+<section class="text-center mb-4 mb-lg-5">
+  <h1 class="sg-hero-title">Detect Spam Messages Instantly</h1>
+  <p class="lead text-muted mx-auto sg-hero-sub">SpamGuard AI uses a machine learning model trained on thousands of real SMS messages to tell whether a message is spam or legitimate in a fraction of a second.</p>
+</section>
+
+<section class="row g-3 mb-4" aria-label="Statistics">
+  <div class="col-12 col-md-4">
+    <div class="sg-card sg-stat"><div class="sg-stat-label"><i class="bi bi-inboxes"></i> Total analyzed</div><div class="sg-stat-value" id="statTotal">–</div></div>
+  </div>
+  <div class="col-6 col-md-4">
+    <div class="sg-card sg-stat"><div class="sg-stat-label text-spam"><i class="bi bi-shield-exclamation"></i> Spam detected</div><div class="sg-stat-value text-spam" id="statSpam">–</div></div>
+  </div>
+  <div class="col-6 col-md-4">
+    <div class="sg-card sg-stat"><div class="sg-stat-label text-ham"><i class="bi bi-shield-check"></i> Legitimate</div><div class="sg-stat-value text-ham" id="statHam">–</div></div>
+  </div>
+</section>
+
+<section id="detect" class="row justify-content-center">
+  <div class="col-lg-9 col-xl-8">
+    <div class="sg-card p-3 p-md-4">
+      <label for="message" class="form-label fw-semibold">Paste or type a message</label>
+      <textarea id="message" class="form-control" rows="6" maxlength="5000"
+                placeholder="e.g. Congratulations! You've won a free prize. Call now to claim..."></textarea>
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <small class="text-muted"><span id="charCount">0</span> / 5000 characters</small>
+        <small class="text-muted d-none d-md-inline">Tip: press Ctrl + Enter to detect</small>
+      </div>
+      <div id="formAlert" class="mt-3"></div>
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <button id="detectBtn" class="btn btn-primary btn-lg px-4" type="button">
+          <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+          <i class="bi bi-search"></i> Detect Spam
+        </button>
+        <button id="clearBtn" class="btn btn-outline-secondary btn-lg" type="button">Clear</button>
+      </div>
+
+      <div class="mt-4">
+        <div class="small fw-semibold mb-2">Try an example</div>
+        <div class="d-flex flex-wrap gap-2" id="examples">
+          <button type="button" class="btn btn-sm btn-outline-danger example" data-text="WINNER!! You have been selected to receive a £900 prize reward! To claim call 09061701461 now. Claim code KL341. Valid 12 hours only.">Spam: prize claim</button>
+          <button type="button" class="btn btn-sm btn-outline-danger example" data-text="URGENT! Your account has been suspended. Click http://secure-verify-login.example/now to confirm your details and avoid permanent closure.">Spam: account alert</button>
+          <button type="button" class="btn btn-sm btn-outline-danger example" data-text="Free entry in our weekly competition to win tickets! Text WIN to 87121 to receive entry. T&amp;Cs apply, 18+ only.">Spam: competition</button>
+          <button type="button" class="btn btn-sm btn-outline-success example" data-text="Hey, are we still meeting for lunch tomorrow at 1? Let me know if you want me to book a table.">Legit: lunch plan</button>
+          <button type="button" class="btn btn-sm btn-outline-success example" data-text="I'll be home late tonight, the meeting ran over. Can you start dinner without me?">Legit: running late</button>
+          <button type="button" class="btn btn-sm btn-outline-success example" data-text="Thanks for sending the report. I read it on the train and have a few comments, shall we talk after class?">Legit: report note</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="resultCard" class="sg-card sg-result mt-4 d-none" role="status" aria-live="polite">
+      <div class="d-flex align-items-center gap-3 flex-wrap">
+        <div class="sg-result-icon"><i id="resultIcon" class="bi"></i></div>
+        <div class="flex-grow-1">
+          <div id="resultTitle" class="sg-result-title"></div>
+          <div class="text-muted small">Prediction confidence: <strong id="resultConfidence"></strong></div>
+        </div>
+        <!-- Big spam % badge -->
+        <div class="text-center ms-auto">
+          <div id="spamPctBig" class="sg-pct-big"></div>
+          <div class="small fw-semibold text-muted">Spam Probability</div>
+        </div>
+      </div>
+      <!-- Dual probability bar -->
+      <div class="mt-3">
+        <div class="d-flex justify-content-between small fw-semibold mb-1">
+          <span class="text-spam"><i class="bi bi-shield-exclamation"></i> Spam &nbsp;<span id="spamPct"></span></span>
+          <span class="text-ham">Not spam &nbsp;<span id="hamPct"></span> <i class="bi bi-shield-check"></i></span>
+        </div>
+        <div class="progress sg-prob" role="progressbar" aria-label="Spam versus legitimate probability">
+          <div id="spamBar" class="progress-bar bg-spam"></div>
+          <div id="hamBar" class="progress-bar bg-ham"></div>
+        </div>
+      </div>
+      <p id="resultAdvice" class="mt-3 mb-2 fw-semibold"></p>
+      <p id="resultDisclaimer" class="small text-muted mb-3"></p>
+      <div id="feedbackBox" class="d-flex flex-wrap align-items-center gap-2">
+        <span class="small">Was this prediction right?</span>
+        <button class="btn btn-sm btn-outline-success" data-feedback="correct" type="button"><i class="bi bi-hand-thumbs-up"></i> Yes</button>
+        <button class="btn btn-sm btn-outline-danger" data-feedback="incorrect" type="button"><i class="bi bi-hand-thumbs-down"></i> No</button>
+        <span id="feedbackThanks" class="small text-muted"></span>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}History - SpamGuard AI{% endblock %}
+{% block page %}history{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h3 fw-bold mb-0">Detection History</h1>
+  {% if current_user %}
+  <button id="clearHistoryBtn" class="btn btn-outline-danger btn-sm" type="button"><i class="bi bi-trash"></i> Clear history</button>
+  {% endif %}
+</div>
+
+{% if not current_user %}
+<div class="sg-card p-4 text-center">
+  <p class="mb-3">Please log in to see your saved detection history.</p>
+  <a class="btn btn-primary" href="{{ url_for('login_page') }}">Login</a>
+  <a class="btn btn-outline-primary" href="{{ url_for('register_page') }}">Register</a>
+</div>
+{% else %}
+<div class="sg-card p-3 p-md-4">
+  <div id="formAlert"></div>
+  <div class="row g-2 mb-3">
+    <div class="col-12 col-md-7">
+      <input id="searchInput" type="search" class="form-control" placeholder="Search messages..." aria-label="Search messages">
+    </div>
+    <div class="col-8 col-md-3">
+      <select id="filterSelect" class="form-select" aria-label="Filter by result">
+        <option value="all">All results</option>
+        <option value="spam">Spam only</option>
+        <option value="ham">Not spam only</option>
+      </select>
+    </div>
+    <div class="col-4 col-md-2 d-grid">
+      <button id="resetFilters" class="btn btn-outline-secondary" type="button">Reset</button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table align-middle sg-table">
+      <thead>
+        <tr><th>Message</th><th>Result</th><th>Confidence</th><th>Date &amp; time</th><th class="text-end">Delete</th></tr>
+      </thead>
+      <tbody id="historyBody"></tbody>
+    </table>
+  </div>
+  <div id="emptyState" class="text-center text-muted py-4 d-none">No messages found.</div>
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-2">
+    <small id="historyInfo" class="text-muted"></small>
+    <nav aria-label="History pages"><ul id="pagination" class="pagination pagination-sm mb-0"></ul></nav>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
