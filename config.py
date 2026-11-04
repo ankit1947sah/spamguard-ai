@@ -10,7 +10,7 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 
 def build_database_uri() -> str:
-    """Build the SQLAlchemy URI. DATABASE_URL wins; otherwise XAMPP/MySQL defaults."""
+    """Build the SQLAlchemy URI. DATABASE_URL wins; otherwise fallback for Vercel/local."""
     url = os.getenv("DATABASE_URL")
     if url:
         # Make sqlite relative paths absolute against the project root
@@ -19,13 +19,22 @@ def build_database_uri() -> str:
             if not os.path.isabs(rel):
                 url = "sqlite:///" + os.path.join(BASE_DIR, rel)
         return url
-    user = os.getenv("DB_USER", "root")
-    password = quote_plus(os.getenv("DB_PASSWORD", ""))  # XAMPP root has no password by default
-    host = os.getenv("DB_HOST", "127.0.0.1")
-    port = os.getenv("DB_PORT", "3306")
-    name = os.getenv("DB_NAME", "spam_detection_db")
-    auth = f"{user}:{password}" if password else user
-    return f"mysql+pymysql://{auth}@{host}:{port}/{name}?charset=utf8mb4"
+
+    # If DB_HOST is explicitly set in environment, use MySQL
+    if os.getenv("DB_HOST"):
+        user = os.getenv("DB_USER", "root")
+        password = quote_plus(os.getenv("DB_PASSWORD", ""))
+        host = os.getenv("DB_HOST", "127.0.0.1")
+        port = os.getenv("DB_PORT", "3306")
+        name = os.getenv("DB_NAME", "spam_detection_db")
+        auth = f"{user}:{password}" if password else user
+        return f"mysql+pymysql://{auth}@{host}:{port}/{name}?charset=utf8mb4"
+
+    # Serverless fallback (writeable /tmp directory on Vercel/AWS Lambda) or local project directory
+    if os.name != "nt" and (os.getenv("VERCEL") or os.path.exists("/tmp")):
+        return "sqlite:////tmp/spamguard.db"
+
+    return "sqlite:///" + os.path.join(BASE_DIR, "spamguard.db")
 
 
 class Config:

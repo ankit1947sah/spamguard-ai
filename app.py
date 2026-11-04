@@ -23,7 +23,10 @@ def create_app(config_object=Config) -> Flask:
     migrate.init_app(app, db)
     import database.models  # noqa: F401  (register models for migrations)
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+        except Exception:
+            app.logger.exception("Failed to initialize database tables on startup")
 
     for bp in (auth_bp, prediction_bp, history_bp, dashboard_bp):
         app.register_blueprint(bp)
