@@ -253,7 +253,7 @@
           (d.pages > 1 ? " · page " + d.page + " of " + d.pages : "");
         renderPagination(d.pages);
       } catch (err) {
-        if (err.status === 401) { window.location.href = "/login?next=/history"; return; }
+        if (err.status === 401) { window.location.href = "/register?next=/history"; return; }
         showAlert(err.message);
       }
     }
@@ -331,7 +331,7 @@
         $("#recentEmpty").classList.toggle("d-none", d.recent.length > 0);
         drawCharts(d);
       } catch (err) {
-        if (err.status === 401) { window.location.href = "/login?next=/dashboard"; return; }
+        if (err.status === 401) { window.location.href = "/register?next=/dashboard"; return; }
         showAlert(err.message);
       }
     }

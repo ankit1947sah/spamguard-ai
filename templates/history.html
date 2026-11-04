@@ -11,9 +11,8 @@
 
 {% if not current_user %}
 <div class="sg-card p-4 text-center">
-  <p class="mb-3">Please log in to see your saved detection history.</p>
-  <a class="btn btn-primary" href="{{ url_for('login_page') }}">Login</a>
-  <a class="btn btn-outline-primary" href="{{ url_for('register_page') }}">Register</a>
+  <p class="mb-3">Please register or create an account to see your saved detection history.</p>
+  <a class="btn btn-primary" href="{{ url_for('register_page') }}">Register</a>
 </div>
 {% else %}
 <div class="sg-card p-3 p-md-4">
